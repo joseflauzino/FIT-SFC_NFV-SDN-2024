@@ -13,6 +13,8 @@ Run each command below in a different terminal window.
 
 ### Step 4: Initialize NIEP, set up the desired topology, and bring it up
 In another terminal window, type the following commands.
+
+    cd ~/NIEP/CLI/
     sudo python2 CLI.py
     define ~/FIT-SFC/SFC-FT_Confs/DNSExample4.json
     topoup
