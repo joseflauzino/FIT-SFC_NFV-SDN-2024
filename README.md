@@ -23,10 +23,12 @@ Run each command below in a different terminal window.
 
 Controller 1:
 
+	cd ~/NIEP/OFCONTROLLERS/pox
 	sudo ./pox.py openflow.of_01 --port=10001 --address=127.0.0.1 forwarding.l2_learning
 	
 Controller 2:
 
+ 	cd ~/NIEP/OFCONTROLLERS/pox
 	sudo ./pox.py openflow.of_01 --port=10002 --address=127.0.0.1 forwarding.l2_learning
 
 ### Step 2: Initialize NIEP, set up the desired topology, and bring it up
