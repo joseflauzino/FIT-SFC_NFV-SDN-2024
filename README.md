@@ -16,7 +16,7 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
 	pip install -r requeriments.txt
 	pip3 install -r requeriments.txt
  
-## Phase 2:
+## Phase 2: Deployment
 
 ### Step 1: Initialize the SDN controllers
 Run each command below in a different terminal window.
@@ -99,6 +99,8 @@ Open the terminal of any SC node (e.g., `xterm SC01`). Now, execute the followin
     xterm CLIENT01
     source SFC-FT_Scripts/Client.sh CLIENT01-eth0 1 192.168.122.1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
 
-### Step 6: Perform the experiment
+### Phase 3: Perform the experiment
+
+### Step 1: Perform the experiment
 
 	measure 100
