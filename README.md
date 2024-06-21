@@ -112,7 +112,7 @@ Now, execute the following commands:
 	python3 3-Manager.py 192.168.123.1 ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExampleSFP4.yaml 1
 	test
 
-### Step 5: Initialize the client
+#### Step 5: Initialize the client
 
     xterm CLIENT01
     source ../FIT-SFC_NFV-SDN-2024/Scripts/Client_DNS.sh CLIENT01-eth0 192.168.122.1 1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
