@@ -28,6 +28,16 @@ A prototype of the FIT-SFC architecture was implemented in Python 3 as a proof o
 
 The experiments presented in the paper can be reproduced by following the instructions listed below.
 
+### 1. Set up
+
+The first step before performing any of the experiments is to prepare the environment. For this, please follow the instructions in the link below.
+
+#### [Set up](Set_up)
+
+### 2. Perform experiments
+
+Once the environment has been properly prepared, the experiments can be reproduced following the instructions below. The experiments are independent, so they can be performed in any order.
+
 #### [Experiment 1: DNS service latency when employing the FIT-SFC architecture](Experiment_1)
 #### [Experiment 2: Authenticated DNS service latency when employing the FIT-SFC architecture](Experiment_2)
 #### [Experiment 3: Load balancing when employing the FIT-SFC architecture](Experiment_3)
