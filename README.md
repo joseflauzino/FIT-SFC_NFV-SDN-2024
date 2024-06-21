@@ -44,7 +44,7 @@ In another terminal window, type the following commands.
 
     cd ~/NIEP/CLI/
     sudo python2 CLI.py
-    define ~/FIT-SFC/SFC-FT_Confs/DNSExample4.json
+    define ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExample.json
     topoup
 
 ### Step 3: Open the Mininet command line from NIEP
