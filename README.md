@@ -115,7 +115,7 @@ Now, execute the following commands:
 ### Step 5: Initialize the client
 
     xterm CLIENT01
-    source ../FIT-SFC_NFV-SDN-2024/Scripts/Client.sh CLIENT01-eth0 1 192.168.122.1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
+    source ../FIT-SFC_NFV-SDN-2024/Scripts/Client_DNS.sh CLIENT01-eth0 1 192.168.122.1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
 
 ### Phase 3: Perform the experiment
 
