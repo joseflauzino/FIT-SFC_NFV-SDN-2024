@@ -24,4 +24,6 @@ Experimental results show that FIT-SFC presents low overhead and fast recovery t
 
 # Reproducing the Experiments
 
+A prototype of the FIT-SFC architecture was implemented in Python 3 as a proof of concept. The experimental evaluation was conducted employing the [NFV Infrastructure Emulation Platform (NIEP)](https://ieeexplore.ieee.org/document/8432239).
+
 
