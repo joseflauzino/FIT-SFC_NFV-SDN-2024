@@ -1,7 +1,11 @@
 
+
 # Experiment 1: FIT-SFC architecture under crash failures
 
 This experiment aims to evaluate the behavior of the FIT-SFC architecture under crash failures of different components.
+
+> [!IMPORTANT] 
+> **Before starting:** the following commands assume that the repositories have been cloned into your user's home directory (`~`). If you choose to clone to another directory, just replace `~` in the commands with the proper path.
 
 ## Phase 1: Set up
 
@@ -10,9 +14,12 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
 
 ### Step 2: Clone the NIEP project
     clone https://github.com/ViniGarcia/NIEP.git
-    
-### Step 3: Install the required packages 
- 
+
+### Step 3: Move the FIT-SFC folder to the NIEP folder
+    mv ~/FIT-SFC_NFV-SDN-2024/ <path>/NIEP/
+
+### Step 4: Install the required packages 
+	cd ~/NIEP/FIT-SFC_NFV-SDN-2024/
 	pip install -r requeriments.txt
 	pip3 install -r requeriments.txt
  
