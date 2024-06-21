@@ -42,9 +42,12 @@ Controller 2:
 
 In another terminal window, type the following commands.
 
+> [!NOTE] 
+> Replace `<path>` with the proper path to the NIEP folder.
+
     cd ~/NIEP/CLI/
     sudo python2 CLI.py
-    define ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExample.json
+    define <path>/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExample.json
     topoup
 
 ### Step 3: Open the Mininet command line from NIEP
