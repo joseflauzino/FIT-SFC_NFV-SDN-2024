@@ -28,8 +28,8 @@ A prototype of the FIT-SFC architecture was implemented in Python 3 as a proof o
 
 The experiments can be reproduced by following the instructions listed below.
 
-### [Experiment 1: DNS service latency comparison](Experiment_2)
-### [Experiment 2: Authenticated DNS service latency comparison](Experiment_2)
-### [Experiment 3: Load balancing service latency comparison](Experiment_3)
-### [Experiment 4: FIT-SFC architecture under crash failures](Experiment_4)
-### [Experiment 5: FIT-SFC architecture under intrusion](Experiment_5)
+#### [Experiment 1: DNS service latency when employing the FIT-SFC architecture](Experiment_1)
+#### [Experiment 2: Authenticated DNS service latency when employing the FIT-SFC architecture](Experiment_2)
+#### [Experiment 3: Load balancing when employing the FIT-SFC architecture](Experiment_3)
+#### [Experiment 4: FIT-SFC architecture under crash failures](Experiment_4)
+#### [Experiment 5: FIT-SFC architecture under intrusion](Experiment_5)
