@@ -6,6 +6,7 @@
 - Giovanni Venâncio (giovanni@inf.ufpr.br)
 - Vinicius Fulber-Garcia (vinicius@inf.ufpr.br)
 - José Flauzino (jwvflauzino@inf.ufpr.br)
+- Eduardo A. P. Alchieri (alchieri@unb.br)
 - Elias P. Duarte Jr. (elias@inf.ufpr.br)
 
 ### Description
@@ -21,6 +22,6 @@ While much of the previous related work only considers crash faults, FIT-SFC use
 A prototype was implemented as a proof of concept.
 Experimental results show that FIT-SFC presents low overhead and fast recovery to tolerate faults/intrusions on both stateless and stateful services.
 
-# Reproducing Experiments
+# Reproducing the Experiments
 
 
