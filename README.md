@@ -16,7 +16,7 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
     git clone https://github.com/ViniGarcia/NIEP.git
 
 ### Step 3: Move the FIT-SFC folder to the NIEP folder
-    mv ~/FIT-SFC_NFV-SDN-2024/ <path>/NIEP/
+    mv ~/FIT-SFC_NFV-SDN-2024/ ~/NIEP/
 
 ### Step 4: Install the required packages 
 	cd ~/NIEP/FIT-SFC_NFV-SDN-2024/
@@ -42,9 +42,12 @@ Controller 2:
 
 In another terminal window, type the following commands.
 
+> [!NOTE] 
+> Replace `<path>` with the proper path to the NIEP folder.
+
     cd ~/NIEP/CLI/
     sudo python2 CLI.py
-    define ~/FIT-SFC/SFC-FT_Confs/DNSExample4.json
+    define <path>/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExample.json
     topoup
 
 ### Step 3: Open the Mininet command line from NIEP
@@ -63,50 +66,56 @@ Then we can see all the components deployed:
 
 #### Step 4.1: Configure the classifiers
 
-In Mininet, we can use the syntax `<node-name> <command>`  to send commands to nodes.
+For each SC node, do:
 
-Therefore, we can configure the classifiers (i.e., each SC component) as follows:
+	xterm SC<id>
+	source ../FIT-SFC_NFV-SDN-2024/Script/SC.sh SC<id>-eth0 173.100.100.<host-number> 192.168.123.<host-number>
 
-	SC01 source SFC-FT_Scripts/SC.sh SC01-eth0 173.100.100.1 192.168.123.1 &
-	SC02 source SFC-FT_Scripts/SC.sh SC02-eth0 173.100.100.2 192.168.123.2 &
-	SC03 source SFC-FT_Scripts/SC.sh SC03-eth0 173.100.100.3 192.168.123.3 &
-	SC04 source SFC-FT_Scripts/SC.sh SC04-eth0 173.100.100.4 192.168.123.4 &
-	
 > [!TIP] 
-> 1. This will make the commands run in background on each node.
-> 2. If you want to see the output of each command, open the terminal of each node and run the command:
-    xterm SC0#
-    source SFC-FT_Scripts/SC.sh SC0#-eth0 173.100.100.# 192.168.123.#
+> 1. Replace `<id>` with the SC identifier (i.e., SC01, SC02, etc.).
+> 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
+> **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/SC.sh SC01-eth0 173.100.100.1 192.168.123.1`
 
 #### Step 4.2: Configure the forwarders
 
-Similarly to the classifiers, configure the forwarders:
+For each SFF node, do:
 
-	SFF01 source SFC-FT_Scripts/SFF.sh SFF01-eth0 192.168.123.5 &
-	SFF02 source SFC-FT_Scripts/SFF.sh SFF02-eth0 192.168.123.6 &
-	SFF03 source SFC-FT_Scripts/SFF.sh SFF03-eth0 192.168.123.7 &
-	SFF04 source SFC-FT_Scripts/SFF.sh SFF04-eth0 192.168.123.8 &
+	xterm SFF<id>
+	source ../FIT-SFC_NFV-SDN-2024/Script/SFF.sh SFF<id>-eth0 192.168.123.<host-number>
+
+> [!TIP] 
+> 1. Replace `<id>` with the SFF identifier (i.e., SFF01, SFF02, etc.).
+> 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
+> **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/SFF.sh SFF01-eth0 192.168.123.5`
 
 #### Step 4.3: Configure the network functions
 
-Now, we need to configure each NF (which are DNS servers in this case).
+For each NF node (which are DNS servers in this case), do:
 
-	DNS01 source SFC-FT_Scripts/DNS_NF.sh DNS01-eth0 192.168.123.9 &
-	DNS02 source SFC-FT_Scripts/DNS_NF.sh DNS02-eth0 192.168.123.10 &
-	DNS03 source SFC-FT_Scripts/DNS_NF.sh DNS03-eth0 192.168.123.11 &
-	DNS04 source SFC-FT_Scripts/DNS_NF.sh DNS04-eth0 192.168.123.12 &
+	xterm DNS<id>
+	source ../FIT-SFC_NFV-SDN-2024/Script/DNS_NF.sh DNS<id>-eth0 192.168.123.<host-number>
+
+> [!TIP] 
+> 1. Replace `<id>` with the SFF identifier (i.e., SFF01, SFF02, etc.).
+> 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
+> **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/DNS_NF.sh DNS01-eth0 192.168.123.9`
 
 #### Step 4.4: Finalize the configuration of SCs and SFFs
 
-Open the terminal of any SC node (e.g., `xterm SC01`). Now, execute the following commands:
+Open another terminal of any SC node. For example:
 
-    python3 3-Manager.py 192.168.123.1 /home/research/Desktop/NIEP/SBRC-2022/SFC-FT_Confs/DNSExampleSFP4.yaml 1
-    test
+	xterm SC01
 
-### Step 5: Initialize the client
+Now, execute the following commands:
+
+	cd ../FIT-SFC_NFV-SDN-2024/Basics
+	python3 3-Manager.py 192.168.123.1 ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExampleSFP4.yaml 1
+	test
+
+#### Step 5: Initialize the client
 
     xterm CLIENT01
-    source SFC-FT_Scripts/Client.sh CLIENT01-eth0 1 192.168.122.1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
+    source ../FIT-SFC_NFV-SDN-2024/Scripts/Client_DNS.sh CLIENT01-eth0 192.168.122.1 1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
 
 ### Phase 3: Perform the experiment
 
