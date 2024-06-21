@@ -30,7 +30,7 @@ The experiments presented in the paper can be reproduced by following the instru
 
 ### 1. Set up
 
-The first step before performing any of the experiments is to prepare the environment. For this, please follow [these instructions](Set_up).
+The first step before performing any of the experiments is to prepare the environment. **For this, please follow [these instructions](Set_up).**
 
 ### 2. Perform experiments
 
