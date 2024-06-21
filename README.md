@@ -102,10 +102,15 @@ For each NF node (which are DNS servers in this case), do:
 
 #### Step 4.4: Finalize the configuration of SCs and SFFs
 
-Open the terminal of any SC node (e.g., `xterm SC01`). Now, execute the following commands:
+Open another terminal of any SC node. For example:
 
-    python3 3-Manager.py 192.168.123.1 ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExampleSFP4.yaml 1
-    test
+	xterm SC01
+
+Now, execute the following commands:
+
+	cd ../FIT-SFC_NFV-SDN-2024/Basics
+	python3 3-Manager.py 192.168.123.1 ~/NIEP/FIT-SFC_NFV-SDN-2024/Confs/DNSExampleSFP4.yaml 1
+	test
 
 ### Step 5: Initialize the client
 
