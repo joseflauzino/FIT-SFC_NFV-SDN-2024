@@ -10,7 +10,7 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
 ## Phase 1: Set up
 
 ### Step 1: Clone the FIT-SFC repository
-    clone https://github.com/joseflauzino/FIT-SFC.git
+    clone https://github.com/joseflauzino/FIT-SFC_NFV-SDN-2024.git
 
 ### Step 2: Clone the NIEP project
     clone https://github.com/ViniGarcia/NIEP.git
