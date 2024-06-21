@@ -16,7 +16,7 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
     git clone https://github.com/ViniGarcia/NIEP.git
 
 ### Step 3: Move the FIT-SFC folder to the NIEP folder
-    mv ~/FIT-SFC_NFV-SDN-2024/ <path>/NIEP/
+    mv ~/FIT-SFC_NFV-SDN-2024/ ~/NIEP/
 
 ### Step 4: Install the required packages 
 	cd ~/NIEP/FIT-SFC_NFV-SDN-2024/
