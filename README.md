@@ -26,4 +26,10 @@ Experimental results show that FIT-SFC presents low overhead and fast recovery t
 
 A prototype of the FIT-SFC architecture was implemented in Python 3 as a proof of concept. The experimental evaluation was conducted employing the [NFV Infrastructure Emulation Platform (NIEP)](https://ieeexplore.ieee.org/document/8432239).
 
+The experiments can be reproduced by following the instructions listed below.
 
+### [Experiment 1: DNS service latency comparison](Experiment_2)
+### [Experiment 2: Authenticated DNS service latency comparison](Experiment_2)
+### [Experiment 3: Load balancing service latency comparison](Experiment_3)
+### [Experiment 4: FIT-SFC architecture under crash failures](Experiment_4)
+### [Experiment 5: FIT-SFC architecture under intrusion](Experiment_5)
