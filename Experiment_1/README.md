@@ -71,7 +71,7 @@ For each SC node, do:
 	xterm SC<id>
 	source ../FIT-SFC_NFV-SDN-2024/Script/SC.sh SC<id>-eth0 173.100.100.<host-number> 192.168.123.<host-number>
 
-> [!TIP] 
+> [!NOTE] 
 > 1. Replace `<id>` with the SC identifier (i.e., SC01, SC02, etc.).
 > 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
 > **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/SC.sh SC01-eth0 173.100.100.1 192.168.123.1`
@@ -83,7 +83,7 @@ For each SFF node, do:
 	xterm SFF<id>
 	source ../FIT-SFC_NFV-SDN-2024/Script/SFF.sh SFF<id>-eth0 192.168.123.<host-number>
 
-> [!TIP] 
+> [!NOTE] 
 > 1. Replace `<id>` with the SFF identifier (i.e., SFF01, SFF02, etc.).
 > 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
 > **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/SFF.sh SFF01-eth0 192.168.123.5`
@@ -95,7 +95,7 @@ For each NF node (which are DNS servers in this case), do:
 	xterm DNS<id>
 	source ../FIT-SFC_NFV-SDN-2024/Script/DNS_NF.sh DNS<id>-eth0 192.168.123.<host-number>
 
-> [!TIP] 
+> [!NOTE] 
 > 1. Replace `<id>` with the SFF identifier (i.e., SFF01, SFF02, etc.).
 > 2. Replace `<host-number>` according to the IP Address set in the DNSExample.json file (used in Step 2).
 > **Example:**  `source ../FIT-SFC_NFV-SDN-2024/Scripts/DNS_NF.sh DNS01-eth0 192.168.123.9`
