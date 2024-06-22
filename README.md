@@ -3,11 +3,11 @@
 # Dependable Virtual Network Services: An Architecture for Fault- and Intrusion-tolerant SFCs
 
 ### Authors:
-- Giovanni Venâncio (giovanni@inf.ufpr.br)
-- Vinicius Fulber-Garcia (vinicius@inf.ufpr.br)
-- José Flauzino (jwvflauzino@inf.ufpr.br)
-- Eduardo A. P. Alchieri (alchieri@unb.br)
-- Elias P. Duarte Jr. (elias@inf.ufpr.br)
+- Giovanni Venâncio (UFPR, Brazil) - giovanni@inf.ufpr.br
+- Vinicius Fulber-Garcia (UFPR, Brazil) - vinicius@inf.ufpr.br
+- José Flauzino (UFPR, Brazil) - jwvflauzino@inf.ufpr.br
+- Eduardo A. P. Alchieri (UnB, Brazil) - alchieri@unb.br
+- Elias P. Duarte Jr. (UFPR, Brazil) - elias@inf.ufpr.br
 
 ### Description
 
