@@ -7,23 +7,7 @@ This experiment aims to evaluate the behavior of the FIT-SFC architecture under 
 > [!IMPORTANT] 
 > **Before starting:** the following commands assume that the repositories have been cloned into your user's home directory (`~`). If you choose to clone to another directory, just replace `~` in the commands with the proper path.
 
-## Phase 1: Set up
-
-### Step 1: Clone the FIT-SFC repository
-    git clone https://github.com/joseflauzino/FIT-SFC_NFV-SDN-2024.git
-
-### Step 2: Clone the NIEP project
-    git clone https://github.com/ViniGarcia/NIEP.git
-
-### Step 3: Move the FIT-SFC folder to the NIEP folder
-    mv ~/FIT-SFC_NFV-SDN-2024/ ~/NIEP/
-
-### Step 4: Install the required packages 
-	cd ~/NIEP/FIT-SFC_NFV-SDN-2024/
-	pip install -r requeriments.txt
-	pip3 install -r requeriments.txt
- 
-## Phase 2: Deployment
+## Phase 1: Deployment
 
 ### Step 1: Initialize the SDN controllers
 Run each command below in a different terminal window.
@@ -117,7 +101,7 @@ Now, execute the following commands:
     xterm CLIENT01
     source ../FIT-SFC_NFV-SDN-2024/Scripts/Client_DNS.sh CLIENT01-eth0 192.168.122.1 1 173.100.100.1 173.100.100.2 173.100.100.3 173.100.100.4
 
-## Phase 3: Perform the experiment
+## Phase 2: Perform the experiment
 
 ### Step 1: Perform the experiment
 
