@@ -1,6 +1,6 @@
 
 
-# Experiment 1: FIT-SFC architecture under crash failures
+# Experiment 4: FIT-SFC architecture under crash failures
 
 This experiment aims to evaluate the behavior of the FIT-SFC architecture under crash failures of different components.
 
