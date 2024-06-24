@@ -34,7 +34,7 @@ The first step before performing any of the experiments is to prepare the enviro
 
 ### 2. Perform experiments
 
-Once the environment has been properly prepared, the experiments can be reproduced following the instructions below. The experiments are independent, so they can be performed in any order.
+Once the environment has been properly prepared, **the experiments can be reproduced following the instructions below.** The experiments are independent, so they can be performed in any order.
 
 #### [Experiment 1: DNS service latency when employing the FIT-SFC architecture](Experiment_1)
 #### [Experiment 2: Authenticated DNS service latency when employing the FIT-SFC architecture](Experiment_2)
