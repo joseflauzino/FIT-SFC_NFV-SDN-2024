@@ -4,6 +4,7 @@ import struct
 import socket
 import sys
 import re
+import time
 
 ######################################################## DNS BUILDER ########################################################
 
@@ -243,8 +244,8 @@ def query(dns_builder):
 
 def measure(std_dns_builder, n_packets, n_failures):
 	global message_identifier
-	output_dir = ../Results/DNS_failures/
-	file_name = output_dir+"time_sheet_dns_client_"+n_packets+"pkts_"+n_failures+"failures.csv"
+	output_dir = "../Results/DNS_failures/"
+	file_name = output_dir+"time_sheet_dns_client_"+str(n_packets)+"pkts_"+str(n_failures)+"failures.csv"
 	
 	time_sheet = open(file_name, "w+")
 
