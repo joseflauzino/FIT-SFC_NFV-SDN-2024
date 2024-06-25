@@ -222,7 +222,7 @@ dns_builder = DnsPacketBuilder()
 dns_dictionary = {"www.facebook.com":"31.13.88.35",#
                   "www.google.com":"142.251.45.110"}
 
-print("\nNF RUNNING FOR PROCESSING PACKETS\n")
+print("\nDNS NF RUNNING FOR PROCESSING PACKETS\n")
 client_control = {}
 while True:
 

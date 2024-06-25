@@ -241,6 +241,22 @@ def query(dns_builder):
 			conn.close()
 			destination_conns.remove(conn)
 
+def measure(std_dns_builder, n_packets, n_failures):
+	global message_identifier
+	output_dir = ../Results/DNS_failures/
+	file_name = output_dir+"time_sheet_dns_client_"+n_packets+"pkts_"+n_failures+"failures.csv"
+	
+	time_sheet = open(file_name, "w+")
+
+	for pkt in range(n_packets):
+		print(message_identifier)
+		start_time = time.time()
+		query(std_dns_builder)
+		end_time = time.time()
+		time_sheet.write(str(message_identifier-1) + ";" + str(round(end_time - start_time, 4)) + "\n")
+		time.sleep(0.1)
+
+	time_sheet.close()
 
 def server(recv_socket, dns_builder, fault_tolerance):
 	
@@ -357,6 +373,14 @@ while True:
 			print("ERROR: NO SETUP PREVIOUSLY EXECUTED!")
 			continue
 		query(std_dns_builder)
+
+	if action.startswith("measure"):
+		measure_args = action.split(" ")
+		if len(measure_args) != 3:
+			print("ERROR: INVALID MEASURE ARGUMENTS PROVIDED!")
+			print("Usage: measure <number_packets_to_send> <number_of_failed_components>")
+			continue
+		measure(std_dns_builder, int(measure_args[1]), int(measure_args[2]))
 
 	if action.startswith("stop"):
 		resp_socket.close()
