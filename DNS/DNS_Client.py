@@ -1,8 +1,9 @@
-import multiprocessing
+from multiprocessing import Process, Pipe
 import scapy.all
 import struct
 import socket
 import sys
+import os
 import re
 import time
 
@@ -133,7 +134,7 @@ class DnsPacketBuilder:
 
 			unpacked_data["responses"].append((response_query, response_type, response_ttl, response_data, unpacking_index-11))
 			unpacking_index += response_local_length
-
+		print("Received response: ",unpacked_data)
 		return unpacked_data
 
 	def create_std_response(self, recv_query, r_type, r_class, r_ttl, r_data, proc_query = None):
@@ -242,37 +243,81 @@ def query(dns_builder):
 			conn.close()
 			destination_conns.remove(conn)
 
-def measure(std_dns_builder, n_packets, n_failures):
-	global message_identifier
-	output_dir = "../Results/DNS_failures/"
-	file_name = output_dir+"time_sheet_dns_client_"+str(n_packets)+"pkts_"+str(n_failures)+"failures.csv"
-	
-	time_sheet = open(file_name, "w+")
+def log_timestamp_received_pkts(parent_conn):
+	print("funcao log_timestamp_received_pkts executando...")
+	global n_packets_to_send
+	global n_affected_components
+	global scenario
 
-	for pkt in range(n_packets):
-		print(message_identifier)
-		start_time = time.time()
-		query(std_dns_builder)
-		end_time = time.time()
-		time_sheet.write(str(message_identifier-1) + ";" + str(round(end_time - start_time, 4)) + "\n")
-		time.sleep(0.1)
+	output_dir = None
+	
+	if scenario == "failures":
+		output_dir = "../Results/DNS_failures/"
+	else:
+		output_dir = "../Results/DNS_intrusions/"
+	
+	file_name = output_dir+"time_sheet_dns_client_received_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
+	time_sheet = open(file_name, "w+")
+	
+	while True:
+		line = parent_conn.recv()
+		print("Line:",line)
+		time_sheet.write(str(line)+"\n")
+		if parent_conn.poll() == False:
+			break
 
 	time_sheet.close()
 
-def server(recv_socket, dns_builder, fault_tolerance):
+def measure(parent_conn, std_dns_builder):
+	global message_identifier
+	global scenario
+	global n_packets_to_send
+	global n_affected_components
+
+	output_dir = None
+
+	if scenario == "failures":
+		output_dir = "../Results/DNS_failures/"
+	elif scenario == "intrusions":
+		output_dir = "../Results/DNS_intrusions/"
+	else:
+		print("Invalid scenario param. Possibles values are 'failures' and 'intrusions'.")
+		return
+
+	output_file = output_dir+"time_sheet_dns_client_sent_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
 	
+	time_sheet = open(output_file, "w+")
+
+	for pkt in range(n_packets_to_send):
+		print("Sending message ",message_identifier)
+		timestamp = time.time()
+		query(std_dns_builder)
+		time_sheet.write(str(message_identifier) + ";" + str(round(timestamp, 4)) + "\n")
+		time.sleep(0.1)
+
+	time_sheet.close()
+	time.sleep(2.0) # wait for packets to be received
+	log_timestamp_received_pkts(parent_conn)
+
+def server(child_conn, recv_socket, dns_builder, fault_tolerance):
 	responses_dictionary = {}
 	responses_counter = -1
+	timestamp = None
 
 	while True:
-
+		
 		try:
 			dns_response, dns_address = resp_socket.recvfrom(1024)
+			timestamp = time.time()
 		except:
 			break
 
 		response_id = struct.unpack(">I", dns_response[-4:])[0]
 		dns_response = dns_response[:-4]
+		print("Receaving:")
+		print(response_id)
+		print(timestamp)
+		
 
 		if response_id <= responses_counter:
 			if response_id in responses_dictionary:
@@ -284,6 +329,9 @@ def server(recv_socket, dns_builder, fault_tolerance):
 			continue
 
 		if not response_id in responses_dictionary:
+			value = str(response_id) + ";" + str(round(timestamp, 4))
+			print("Appending:",value)
+			child_conn.send(value)
 			responses_dictionary[response_id] = {dns_response:[dns_address[0]]}
 			continue
 		else:
@@ -294,7 +342,8 @@ def server(recv_socket, dns_builder, fault_tolerance):
 					print("\n", dns_builder.read_std_response(dns_response), "\n")
 					del responses_dictionary[response_id]
 					responses_counter = response_id
-
+	child_conn.close()
+		
 #############################################################################################################################
 
 
@@ -312,6 +361,11 @@ message_identifier = 0
 #VARIABLE: TCP connections with the target service classifiers
 destination_conns = []
 
+# Variables for generate results
+scenario = None
+n_packets_to_send = None
+n_affected_components = None
+timestamp_received_pkts = []
 
 '''
 PROGRAM STANDARD ARGUMENTS: this program expects a sequence of IP addresses to which it will open TCP connections. So,
@@ -344,14 +398,17 @@ std_dns_builder = DnsPacketBuilder()
 
 
 #STANDARD SETUP FOR TESTS
-setup("www.facebook.com", "192.168.123.3", "53", "192.168.122.1", "9999") #JUST FOR TESTS
+#setup("www.facebook.com", "192.168.123.3", "53", "192.168.122.1", "9999") #JUST FOR TESTS
+setup("www.facebook.com", "192.168.123.10", "53", "192.168.122.1", "9999") #JUST FOR TESTS
 
 # SOCKET FOR RECEIVING THE RESPONSE FROM THE DNS SERVER
 resp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 resp_socket.bind(('192.168.122.1', 9999))
 
-server_process = multiprocessing.Process(target=server, kwargs=dict(recv_socket=resp_socket, dns_builder=std_dns_builder, fault_tolerance=fault_tolerance))
+parent_conn, child_conn = Pipe()
+server_process = Process(target=server, kwargs=dict(child_conn=child_conn, recv_socket=resp_socket, dns_builder=std_dns_builder, fault_tolerance=fault_tolerance))
 server_process.start()
+
 
 '''
 PROGRAM MAIN LOOP: this program provides a very simple interface for the user. Through this interface, the user can
@@ -377,11 +434,14 @@ while True:
 
 	if action.startswith("measure"):
 		measure_args = action.split(" ")
-		if len(measure_args) != 3:
+		if len(measure_args) != 4:
 			print("ERROR: INVALID MEASURE ARGUMENTS PROVIDED!")
-			print("Usage: measure <number_packets_to_send> <number_of_failed_components>")
+			print("Usage: measure <scenario> <number_packets_to_send> <number_of_affected_components>")
 			continue
-		measure(std_dns_builder, int(measure_args[1]), int(measure_args[2]))
+		scenario = str(measure_args[1])
+		n_packets_to_send = int(measure_args[2])
+		n_affected_components = int(measure_args[3])
+		measure(parent_conn, std_dns_builder)
 
 	if action.startswith("stop"):
 		resp_socket.close()

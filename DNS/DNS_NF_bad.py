@@ -1,9 +1,33 @@
+"""
+MIT License
+
+Copyright (c) 2024 Vinicius Fulber-Garcia and Jose Flauzino
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE."""
+
 import multiprocessing
 import struct
 import socket
 import math
 import sys
 import re
+import random
 
 import NSH
 import NM
@@ -159,7 +183,7 @@ class DnsPacketBuilder:
         return recv_query[:6] + struct.pack(">H", proc_query["answers"] + 1) + recv_query[8:] + local_response
 
     def create_std_response_data(self, r_type, r_data):
-        
+        print("Creating respose data")
         final_result = None
 
         if r_type == 1:
@@ -168,6 +192,7 @@ class DnsPacketBuilder:
             final_result = bytearray()
             if len(partial_result) != 4:
                 return None
+            i = 1
             for number in partial_result:
                 try:
                     int_number = int(number)
@@ -175,7 +200,15 @@ class DnsPacketBuilder:
                     return None
                 if int_number < 0 or int_number > 255:
                     return None
-                final_result.extend(bytes((int_number,)))
+                if i == 4: # Simulating an intrusion
+                    number_list = list(range(1, 255)) # list of valid host numbers (i.e., 1-254)
+                    number_list.remove(int_number) # remove the correct value from the list
+                    new_host_number = random.choice(number_list)
+                    print("Returning host number %s instead of %s" % (str(new_host_number), str(int_number)))
+                    final_result.extend(bytes((new_host_number,))) # randomly chooses a host number
+                else:
+                    final_result.extend(bytes((int_number,)))
+                i += 1
         elif r_type == 5:
             #r_data format: (dns_name,)
             partial_result = r_data[0].split(".")
@@ -222,13 +255,13 @@ dns_builder = DnsPacketBuilder()
 dns_dictionary = {"www.facebook.com":"31.13.88.35",#
                   "www.google.com":"142.251.45.110"}
 
-print("\nDNS NF RUNNING FOR PROCESSING PACKETS\n")
+print("\n(Bad) DNS NF RUNNING FOR PROCESSING PACKETS\n")
 client_control = {}
 while True:
+
     pkt_semaphore.acquire()
     pkt_mutex.acquire()
     recv_data = pkt_list.pop(0)
-    print("Receive data:",recv_data)
     pkt_mutex.release()
 
     if recv_data[2] == -1:
