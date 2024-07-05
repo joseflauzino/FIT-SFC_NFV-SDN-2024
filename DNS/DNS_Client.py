@@ -258,13 +258,15 @@ def log_timestamp_received_pkts(parent_conn):
 	
 	file_name = output_dir+"time_sheet_dns_client_received_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
 	time_sheet = open(file_name, "w+")
-	
-	while True:
-		line = parent_conn.recv()
-		print("Line:",line)
-		time_sheet.write(str(line)+"\n")
-		if parent_conn.poll() == False:
-			break
+	line = parent_conn.recv()
+	print("Line:",line)
+	time_sheet.write(str(line)+"\n")
+	# while True:
+	# 	line = parent_conn.recv()
+	# 	print("Line:",line)
+	# 	time_sheet.write(str(line)+"\n")
+	# 	if parent_conn.poll() == False:
+	# 		break
 
 	time_sheet.close()
 
@@ -299,11 +301,12 @@ def measure(parent_conn, std_dns_builder):
 		timestamp = time.time()
 		query(std_dns_builder)
 		time_sheet.write(str(message_identifier) + "," + truncate(timestamp, 4) + "\n")
-		time.sleep(0.1)
+		time.sleep(0.5) # wait for packets to be received
+		log_timestamp_received_pkts(parent_conn)
 
 	time_sheet.close()
-	time.sleep(2.0) # wait for packets to be received
-	log_timestamp_received_pkts(parent_conn)
+	# time.sleep(2.0) # wait for packets to be received
+	# log_timestamp_received_pkts(parent_conn)
 
 def server(child_conn, recv_socket, dns_builder, fault_tolerance):
 	responses_dictionary = {}
