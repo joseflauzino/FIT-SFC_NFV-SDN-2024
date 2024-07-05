@@ -268,6 +268,12 @@ def log_timestamp_received_pkts(parent_conn):
 
 	time_sheet.close()
 
+def truncate(f, n):
+  '''Truncates/pads a float f to n decimal places without rounding'''
+  s = '%.12f' % f
+  i, p, d = s.partition('.')
+  return str('.'.join([i, (d+'0'*n)[:n]]))
+
 def measure(parent_conn, std_dns_builder):
 	global message_identifier
 	global scenario
@@ -292,7 +298,7 @@ def measure(parent_conn, std_dns_builder):
 		print("Sending message ",message_identifier)
 		timestamp = time.time()
 		query(std_dns_builder)
-		time_sheet.write(str(message_identifier) + ";" + str(round(timestamp, 4)) + "\n")
+		time_sheet.write(str(message_identifier) + "," + truncate(timestamp, 4) + "\n")
 		time.sleep(0.1)
 
 	time_sheet.close()
@@ -329,8 +335,7 @@ def server(child_conn, recv_socket, dns_builder, fault_tolerance):
 			continue
 
 		if not response_id in responses_dictionary:
-			value = str(response_id) + ";" + str(round(timestamp, 4))
-			print("Appending:",value)
+			value = str(response_id) + "," + truncate(timestamp, 4)
 			child_conn.send(value)
 			responses_dictionary[response_id] = {dns_response:[dns_address[0]]}
 			continue
