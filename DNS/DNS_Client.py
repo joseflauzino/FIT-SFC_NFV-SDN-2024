@@ -247,9 +247,10 @@ def log_timestamp_received_pkts(parent_conn, file_name):
 	print("funcao log_timestamp_received_pkts executando...")
 	
 	time_sheet = open(file_name, "a")
+	print("Opened the file")
 
 	existsLines = True
-	while existsLines:
+	while existsLines == True:
 		print("Reading Line")
 		line = parent_conn.recv()
 		print("Line:",line)
