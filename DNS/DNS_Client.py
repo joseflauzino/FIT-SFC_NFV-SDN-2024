@@ -243,30 +243,20 @@ def query(dns_builder):
 			conn.close()
 			destination_conns.remove(conn)
 
-def log_timestamp_received_pkts(parent_conn):
+def log_timestamp_received_pkts(parent_conn, file_name):
 	print("funcao log_timestamp_received_pkts executando...")
 	global n_packets_to_send
 	global n_affected_components
 	global scenario
+	
+	time_sheet = open(file_name, "a")
 
-	output_dir = None
-	
-	if scenario == "failures":
-		output_dir = "../Results/DNS_failures/"
-	else:
-		output_dir = "../Results/DNS_intrusions/"
-	
-	file_name = output_dir+"time_sheet_dns_client_received_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
-	time_sheet = open(file_name, "w+")
-	line = parent_conn.recv()
-	print("Line:",line)
-	time_sheet.write(str(line)+"\n")
-	# while True:
-	# 	line = parent_conn.recv()
-	# 	print("Line:",line)
-	# 	time_sheet.write(str(line)+"\n")
-	# 	if parent_conn.poll() == False:
-	# 		break
+	while True:
+		line = parent_conn.recv()
+		print("Line:",line)
+		time_sheet.write(str(line)+"\n")
+		if parent_conn.poll() == False:
+			break
 
 	time_sheet.close()
 
@@ -292,17 +282,20 @@ def measure(parent_conn, std_dns_builder):
 		print("Invalid scenario param. Possibles values are 'failures' and 'intrusions'.")
 		return
 
-	output_file = output_dir+"time_sheet_dns_client_sent_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
-	
-	time_sheet = open(output_file, "w+")
+	file_name_sent = output_dir+"time_sheet_dns_client_sent_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
+	file_name_received = output_dir+"time_sheet_dns_client_received_"+str(n_packets_to_send)+"pkts_"+str(n_affected_components)+str(scenario)+".csv"
+
+	time_sheet_received = open(file_name_received, "w+")
+	time_sheet_received.truncate(0)
+	time_sheet = open(file_name_sent, "w+")
 
 	for pkt in range(n_packets_to_send):
 		print("Sending message ",message_identifier)
 		timestamp = time.time()
 		query(std_dns_builder)
 		time_sheet.write(str(message_identifier) + "," + truncate(timestamp, 4) + "\n")
-		time.sleep(0.5) # wait for packets to be received
-		log_timestamp_received_pkts(parent_conn)
+		time.sleep(0.1) # wait for packets to be received
+		log_timestamp_received_pkts(parent_conn, file_name_received)
 
 	time_sheet.close()
 	# time.sleep(2.0) # wait for packets to be received
