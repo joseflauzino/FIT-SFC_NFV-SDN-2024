@@ -251,14 +251,16 @@ def log_timestamp_received_pkts(parent_conn, file_name):
 	
 	time_sheet = open(file_name, "a")
 
-	while True:
+	existsLines = True
+	while existsLines:
 		line = parent_conn.recv()
 		print("Line:",line)
 		time_sheet.write(str(line)+"\n")
 		if parent_conn.poll() == False:
-			break
+			existsLines = False
 
 	time_sheet.close()
+	return
 
 def truncate(f, n):
   '''Truncates/pads a float f to n decimal places without rounding'''
