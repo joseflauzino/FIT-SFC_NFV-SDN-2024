@@ -245,14 +245,12 @@ def query(dns_builder):
 
 def log_timestamp_received_pkts(parent_conn, file_name):
 	print("funcao log_timestamp_received_pkts executando...")
-	global n_packets_to_send
-	global n_affected_components
-	global scenario
 	
 	time_sheet = open(file_name, "a")
 
 	existsLines = True
 	while existsLines:
+		print("Reading Line")
 		line = parent_conn.recv()
 		print("Line:",line)
 		time_sheet.write(str(line)+"\n")
@@ -290,7 +288,7 @@ def measure(parent_conn, std_dns_builder):
 	time_sheet_received = open(file_name_received, "w+")
 	time_sheet_received.truncate(0)
 	time_sheet_received.close()
-	
+
 	time_sheet = open(file_name_sent, "w+")
 
 	for pkt in range(n_packets_to_send):
@@ -298,7 +296,7 @@ def measure(parent_conn, std_dns_builder):
 		timestamp = time.time()
 		query(std_dns_builder)
 		time_sheet.write(str(message_identifier) + "," + truncate(timestamp, 4) + "\n")
-		time.sleep(0.1) # wait for packets to be received
+		time.sleep(0.3) # wait for packets to be received
 		log_timestamp_received_pkts(parent_conn, file_name_received)
 
 	time_sheet.close()
