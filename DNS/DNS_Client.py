@@ -260,7 +260,7 @@ def log_timestamp_received_pkts(parent_conn, file_name):
 			existsLines = False
 
 	time_sheet.close()
-	return
+
 
 def truncate(f, n):
   '''Truncates/pads a float f to n decimal places without rounding'''
@@ -289,6 +289,8 @@ def measure(parent_conn, std_dns_builder):
 
 	time_sheet_received = open(file_name_received, "w+")
 	time_sheet_received.truncate(0)
+	time_sheet_received.close()
+	
 	time_sheet = open(file_name_sent, "w+")
 
 	for pkt in range(n_packets_to_send):
