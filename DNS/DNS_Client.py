@@ -251,12 +251,15 @@ def log_timestamp_received_pkts(parent_conn, file_name):
 
 	existsLines = True
 	while existsLines == True:
+		print("Checking if there are messages to read")
+		if parent_conn.poll() == False:
+			print("No messages")
+			existsLines = False
+			continue
 		print("Reading Line")
 		line = parent_conn.recv()
 		print("Line:",line)
 		time_sheet.write(str(line)+"\n")
-		if parent_conn.poll() == False:
-			existsLines = False
 
 	time_sheet.close()
 
