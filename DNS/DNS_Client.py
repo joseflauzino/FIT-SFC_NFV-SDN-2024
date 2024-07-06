@@ -260,7 +260,7 @@ def log_timestamp_received_pkts(parent_conn, file_name):
 		line = parent_conn.recv()
 		print("Line:",line)
 		time_sheet.write(str(line)+"\n")
-
+	print("Closing file")
 	time_sheet.close()
 
 
