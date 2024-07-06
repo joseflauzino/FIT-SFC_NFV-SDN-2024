@@ -298,14 +298,16 @@ def measure(parent_conn, std_dns_builder):
 	for pkt in range(n_packets_to_send):
 		print("Sending message ",message_identifier)
 		timestamp = time.time()
+		current_msg_id = message_identifier
 		query(std_dns_builder)
-		time_sheet.write(str(message_identifier) + "," + truncate(timestamp, 4) + "\n")
-		time.sleep(0.3) # wait for packets to be received
+		time_sheet.write(str(current_msg_id) + "," + truncate(timestamp, 4) + "\n")
+		time.sleep(0.1)
 		log_timestamp_received_pkts(parent_conn, file_name_received)
 
 	time_sheet.close()
 	# time.sleep(2.0) # wait for packets to be received
 	# log_timestamp_received_pkts(parent_conn)
+	log_timestamp_received_pkts(parent_conn, file_name_received)
 
 def server(child_conn, recv_socket, dns_builder, fault_tolerance):
 	responses_dictionary = {}
