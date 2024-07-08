@@ -28,7 +28,8 @@ def pre_process_data(scenario, n_queries_sent):
     values = []
     for i in range(len(sent_data)):
       v = float(received_data[i][1]) - float(sent_data[i][1]) # [1] refers to the timestamp column
-      values.append(round(v,6)) 
+      values.append(float(truncate(v,4)))
+    print(values)
     data[n_affected_components] = values
   return data
 
@@ -44,9 +45,13 @@ def calc_average(values):
 
 def calc_error(conjunto,average):
   std_deviation = np.std(np.array(conjunto))
-  confidence_interval = scipy.stats.norm.interval(0.95, loc=average, scale=std_deviation)
-  return confidence_interval[1]-average
-
+  print("len(conjunto):",len(conjunto))
+  print("std_deviation:",std_deviation)
+  print("np.sqrt(len(conjunto)):",np.sqrt(len(conjunto)))
+  error = std_deviation / np.sqrt(len(conjunto))
+  #confidence_interval = scipy.stats.norm.interval(0.95, loc=average, scale=std_deviation)
+  #return confidence_interval[1]-average
+  return truncate(error,6)
 
 def process_data(data):
   j = 0
@@ -54,7 +59,7 @@ def process_data(data):
     print(j,"Faults:")
     avg = calc_average(i)
     print("Average:",truncate(avg,4))
-    print("Error:",truncate(calc_error(i,avg),4))
+    print("Error:",calc_error(i,avg))
     print()
     j+=1
 
